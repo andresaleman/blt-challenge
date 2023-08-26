@@ -53,7 +53,7 @@ generic map (
     -- or "SAME_EDGE_PIPELINED"
     INIT_Q1 => '0', -- Initial value of Q1: '0' or '1'
     INIT_Q2 => '0', -- Initial value of Q2: '0' or '1'
-    SRTYPE => "SYNC") -- Set/Reset type: "SYNC" or "ASYNC"
+    SRTYPE => "ASYNC") -- Set/Reset type: "SYNC" or "ASYNC" --For ultrascale architecture this needs to be ASYNC
     port map (
     Q1 => adc_data_out((i*2)+1), -- 1-bit output for positive edge of clock
     Q2 => adc_data_out(i*2), -- 1-bit output for negative edge of clock

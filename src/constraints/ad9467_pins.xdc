@@ -19,29 +19,33 @@ set_property -dict { PACKAGE_PIN AM9  IOSTANDARD LVCMOS12 DIRECTION OUT} [get_po
 set_property -dict { PACKAGE_PIN AM10 IOSTANDARD LVCMOS12 DIRECTION OUT} [get_ports { up_status[6] }];
 set_property -dict { PACKAGE_PIN AM11 IOSTANDARD LVCMOS12 DIRECTION OUT} [get_ports { up_status[7] }];
 
-set_property -dict {  PACKAGE_PIN   DIFF_TERM TRUE E15  IOSTANDARD LVDS DIRECTION IN} [ get_ports { adc_clk_in_p     }];
-set_property -dict {  PACKAGE_PIN   DIFF_TERM TRUE E14  IOSTANDARD LVDS DIRECTION IN} [ get_ports { adc_clk_in_n     }];
-set_property -dict {  PACKAGE_PIN   DIFF_TERM TRUE E18  IOSTANDARD LVDS DIRECTION IN} [ get_ports { adc_data_or_p    }];
-set_property -dict {  PACKAGE_PIN   DIFF_TERM TRUE E17  IOSTANDARD LVDS DIRECTION IN} [ get_ports { adc_data_or_n    }];
-set_property -dict {  PACKAGE_PIN   DIFF_TERM TRUE F17  IOSTANDARD LVDS DIRECTION IN} [ get_ports { adc_data_in_p[0] }];
-set_property -dict {  PACKAGE_PIN   DIFF_TERM TRUE F16  IOSTANDARD LVDS DIRECTION IN} [ get_ports { adc_data_in_n[0] }];
-set_property -dict {  PACKAGE_PIN   DIFF_TERM TRUE H18  IOSTANDARD LVDS DIRECTION IN} [ get_ports { adc_data_in_p[1] }];
-set_property -dict {  PACKAGE_PIN   DIFF_TERM TRUE H17  IOSTANDARD LVDS DIRECTION IN} [ get_ports { adc_data_in_n[1] }];
-set_property -dict {  PACKAGE_PIN   DIFF_TERM TRUE L20  IOSTANDARD LVDS DIRECTION IN} [ get_ports { adc_data_in_p[2] }];
-set_property -dict {  PACKAGE_PIN   DIFF_TERM TRUE K20  IOSTANDARD LVDS DIRECTION IN} [ get_ports { adc_data_in_n[2] }];
-set_property -dict {  PACKAGE_PIN   DIFF_TERM TRUE K19  IOSTANDARD LVDS DIRECTION IN} [ get_ports { adc_data_in_p[3] }];
-set_property -dict {  PACKAGE_PIN   DIFF_TERM TRUE K18  IOSTANDARD LVDS DIRECTION IN} [ get_ports { adc_data_in_n[3] }];
-set_property -dict {  PACKAGE_PIN   DIFF_TERM TRUE L17  IOSTANDARD LVDS DIRECTION IN} [ get_ports { adc_data_in_p[4] }];
-set_property -dict {  PACKAGE_PIN   DIFF_TERM TRUE L16  IOSTANDARD LVDS DIRECTION IN} [ get_ports { adc_data_in_n[4] }];
-set_property -dict {  PACKAGE_PIN   DIFF_TERM TRUE K17  IOSTANDARD LVDS DIRECTION IN} [ get_ports { adc_data_in_p[5] }];
-set_property -dict {  PACKAGE_PIN   DIFF_TERM TRUE J17  IOSTANDARD LVDS DIRECTION IN} [ get_ports { adc_data_in_n[5] }];
-set_property -dict {  PACKAGE_PIN   DIFF_TERM TRUE H19  IOSTANDARD LVDS DIRECTION IN} [ get_ports { adc_data_in_p[6] }];
-set_property -dict {  PACKAGE_PIN   DIFF_TERM TRUE G19  IOSTANDARD LVDS DIRECTION IN} [ get_ports { adc_data_in_n[6] }];
-set_property -dict {  PACKAGE_PIN   DIFF_TERM TRUE J16  IOSTANDARD LVDS DIRECTION IN} [ get_ports { adc_data_in_p[7] }];
-set_property -dict {  PACKAGE_PIN   DIFF_TERM TRUE J15  IOSTANDARD LVDS DIRECTION IN} [ get_ports { adc_data_in_n[7] }];
+set_property -dict {  PACKAGE_PIN E15 DIFF_TERM TRUE IOSTANDARD LVDS DIRECTION IN} [ get_ports { adc_clk_in_p     }];
+set_property -dict {  PACKAGE_PIN E14 DIFF_TERM TRUE IOSTANDARD LVDS DIRECTION IN} [ get_ports { adc_clk_in_n     }];
+set_property -dict {  PACKAGE_PIN E18  DIFF_TERM TRUE  IOSTANDARD LVDS DIRECTION IN} [ get_ports { adc_data_or_p    }];
+set_property -dict {  PACKAGE_PIN E17  DIFF_TERM TRUE  IOSTANDARD LVDS DIRECTION IN} [ get_ports { adc_data_or_n    }];
+set_property -dict {  PACKAGE_PIN F17  DIFF_TERM TRUE  IOSTANDARD LVDS DIRECTION IN} [ get_ports { adc_data_in_p[0] }];
+set_property -dict {  PACKAGE_PIN F16  DIFF_TERM TRUE  IOSTANDARD LVDS DIRECTION IN} [ get_ports { adc_data_in_n[0] }];
+set_property -dict {  PACKAGE_PIN H18  DIFF_TERM TRUE  IOSTANDARD LVDS DIRECTION IN} [ get_ports { adc_data_in_p[1] }];
+set_property -dict {  PACKAGE_PIN H17  DIFF_TERM TRUE  IOSTANDARD LVDS DIRECTION IN} [ get_ports { adc_data_in_n[1] }];
+set_property -dict {  PACKAGE_PIN L20  DIFF_TERM TRUE  IOSTANDARD LVDS DIRECTION IN} [ get_ports { adc_data_in_p[2] }];
+set_property -dict {  PACKAGE_PIN K20  DIFF_TERM TRUE  IOSTANDARD LVDS DIRECTION IN} [ get_ports { adc_data_in_n[2] }];
+set_property -dict {  PACKAGE_PIN K19  DIFF_TERM TRUE  IOSTANDARD LVDS DIRECTION IN} [ get_ports { adc_data_in_p[3] }];
+set_property -dict {  PACKAGE_PIN K18  DIFF_TERM TRUE  IOSTANDARD LVDS DIRECTION IN} [ get_ports { adc_data_in_n[3] }];
+set_property -dict {  PACKAGE_PIN L17  DIFF_TERM TRUE  IOSTANDARD LVDS DIRECTION IN} [ get_ports { adc_data_in_p[4] }];
+set_property -dict {  PACKAGE_PIN L16  DIFF_TERM TRUE  IOSTANDARD LVDS DIRECTION IN} [ get_ports { adc_data_in_n[4] }];
+set_property -dict {  PACKAGE_PIN K17  DIFF_TERM TRUE  IOSTANDARD LVDS DIRECTION IN} [ get_ports { adc_data_in_p[5] }];
+set_property -dict {  PACKAGE_PIN J17  DIFF_TERM TRUE  IOSTANDARD LVDS DIRECTION IN} [ get_ports { adc_data_in_n[5] }];
+set_property -dict {  PACKAGE_PIN H19  DIFF_TERM TRUE  IOSTANDARD LVDS DIRECTION IN} [ get_ports { adc_data_in_p[6] }];
+set_property -dict {  PACKAGE_PIN G19  DIFF_TERM TRUE  IOSTANDARD LVDS DIRECTION IN} [ get_ports { adc_data_in_n[6] }];
+set_property -dict {  PACKAGE_PIN J16  DIFF_TERM TRUE  IOSTANDARD LVDS DIRECTION IN} [ get_ports { adc_data_in_p[7] }];
+set_property -dict {  PACKAGE_PIN J15  DIFF_TERM TRUE  IOSTANDARD LVDS DIRECTION IN} [ get_ports { adc_data_in_n[7] }];
 
 
 set_property -dict { PACKAGE_PIN C9  IOSTANDARD LVCMOS18 DIRECTION OUT  } [ get_ports { ad9517_csn }];
 set_property -dict { PACKAGE_PIN C8  IOSTANDARD LVCMOS18 DIRECTION OUT  } [ get_ports { spi_csn    }];
 set_property -dict { PACKAGE_PIN E8  IOSTANDARD LVCMOS18 DIRECTION OUT  } [ get_ports { spi_clk    }];
 set_property -dict { PACKAGE_PIN F8  IOSTANDARD LVCMOS18 DIRECTION INOUT} [ get_ports { spi_sdio   }];
+
+#Let's assume a 60MHz clock for ADC
+create_clock -name adc_clk -period 17.00 [get_ports adc_clk_in_p]
+create_clock -name clk_125 -period 8.00 [get_ports clk_125_p]

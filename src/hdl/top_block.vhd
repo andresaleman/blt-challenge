@@ -86,6 +86,14 @@ component blk_mem_gen_0 IS
   );
 END component;
 
+component ila_0 IS
+PORT (
+    clk : IN STD_LOGIC;
+    probe0 : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+    probe1 : IN STD_LOGIC_VECTOR(0 DOWNTO 0)
+);
+END component;
+
 -- signals
 signal resetn : std_logic;
 
@@ -102,6 +110,7 @@ signal out_of_range_delayed : std_logic;
 -- adc data at 125MHz
 signal adc_data_125_tdata : std_logic_vector(15 downto 0);
 signal adc_data_125_tvalid : std_logic;
+signal out_of_range_125 : std_logic;
 
 -- memory
 signal mem_adc_data_output : std_logic_vector(15 downto 0);
@@ -119,7 +128,7 @@ IBUFDS_DATA_OUT_OF_RANGE : IBUFDS
 generic map(
     DIFF_TERM => FALSE, -- Differential Termination, board is already using this according to constraint
     IBUF_LOW_PWR => TRUE, -- Low power="TRUE", Highest perforrmance="FALSE"
-    IOSTANDARD => "DEFAULT" -- Specify the input I/O standard
+    IOSTANDARD => "LVDS" -- Specify the input I/O standard
 )
 port map (
     O => out_of_range, -- Buffer output
@@ -133,7 +142,7 @@ IBUFDS_DATA : IBUFDS
 generic map(
     DIFF_TERM => FALSE, -- Differential Termination
     IBUF_LOW_PWR => TRUE, -- Low power="TRUE", Highest perforrmance="FALSE"
-    IOSTANDARD => "DEFAULT" -- Specify the input I/O standard
+    IOSTANDARD => "LVDS" -- Specify the input I/O standard
 )
 port map (
     O => adc_data_in(i), -- Buffer output
@@ -147,7 +156,7 @@ IBUFDS_DATA_CLOCK : IBUFGDS
 generic map(
     DIFF_TERM => FALSE, -- Differential Termination, board is already using this according to constraint
     IBUF_LOW_PWR => TRUE, -- Low power="TRUE", Highest perforrmance="FALSE"
-    IOSTANDARD => "DEFAULT" -- Specify the input I/O standard
+    IOSTANDARD => "LVDS" -- Specify the input I/O standard
 )
 port map (
     O => adc_clk_in, -- Buffer output
@@ -160,7 +169,7 @@ IBUFDS_CLOCK : IBUFGDS
 generic map(
     DIFF_TERM => FALSE, -- Differential Termination, board is already using this according to constraint
     IBUF_LOW_PWR => TRUE, -- Low power="TRUE", Highest perforrmance="FALSE"
-    IOSTANDARD => "DEFAULT" -- Specify the input I/O standard
+    IOSTANDARD => "DIFF_SSTL15" -- Specify the input I/O standard
 )
 port map (
     O => clk_125, -- Buffer output
@@ -177,6 +186,14 @@ ad9467 : ad9467_interface
            out_of_range => out_of_range,
            adc_data_out => adc_data,
            out_of_range_out => out_of_range_delayed);
+           
+-- adding ILA for debugging purposes
+adc_ila: ila_0
+PORT map (
+    clk => adc_clk_in,
+    probe0 => adc_data,
+    probe1(0) => out_of_range_delayed
+);
 
 -- Now we need to get the data of the ADC, which is being clocked by ad_clk_in and send it to a memory using the processing clk (clk_125)
 -- Let's use a FIFO to go from adc_clk_in to clk_125
@@ -215,17 +232,12 @@ begin
     end if;
 end process;
 
-
 -- LEDs
 process (clk_125)
 begin
     if(rising_edge(clk_125)) then
         -- just make sure we are running the FPGA image, so always ON
         up_status(0) <= '1';
-        -- allow to visualize out of range with LED
-        up_status(1) <= out_of_range_delayed;
-        -- make sure adc_clk is running 
-        up_status(2) <= adc_clk_in;
         -- make sure we are writing to memory or at least wre is being toggled
         up_status(3) <= adc_data_125_tvalid;
         
@@ -236,6 +248,16 @@ begin
         up_status(7) <= adc_data_125_tdata(3);
         
         
+    end if;
+end process;
+
+process (adc_clk_in)
+begin
+    if (rising_edge(adc_clk_in)) then
+        -- make sure adc_clk is running 
+        up_status(2) <= '1';
+        -- allow to visualize out of range with LED
+        up_status(1) <= out_of_range_delayed;
     end if;
 end process;
 
