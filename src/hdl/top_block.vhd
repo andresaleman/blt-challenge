@@ -62,7 +62,21 @@ component ad9467_interface is
            out_of_range_out : out STD_LOGIC);
 end component;
 
+component axis_data_fifo_0 is
+Port (
+  s_axis_aresetn : in STD_LOGIC;
+  s_axis_aclk : in STD_LOGIC;
+  s_axis_tvalid : in STD_LOGIC;
+  s_axis_tready : out STD_LOGIC;
+  s_axis_tdata : in STD_LOGIC_VECTOR(15 downto 0);
+  m_axis_aclk : in STD_LOGIC;
+  m_axis_tvalid : out STD_LOGIC;
+  m_axis_tready : in STD_LOGIC;
+  m_axis_tdata : out STD_LOGIC_VECTOR(15 downto 0));
+end component;
+
 -- signals
+signal resetn : std_logic;
 
 -- single-ended inputs
 signal clk_125 : std_logic;
@@ -74,7 +88,16 @@ signal adc_data_in : std_logic_vector (7 downto 0);
 signal adc_data : std_logic_vector (15 downto 0);
 signal out_of_range_delayed : std_logic;
 
+-- adc data at 125MHz
+signal adc_data_125_tdata : std_logic_vector(15 downto 0);
+signal adc_data_125_tvalid : std_logic;
+
+--
+
 begin
+
+-- let's have a resetn signal available
+resetn <= not reset;
 
 -- First, let's convert all the differential pairs to single-ended
 
@@ -143,6 +166,20 @@ ad9467 : ad9467_interface
            out_of_range_out => out_of_range_delayed);
 
 -- Now we need to get the data of the ADC, which is being clocked by ad_clk_in and send it to a memory using the processing clk (clk_125)
+-- Let's use a FIFO to go from adc_clk_in to clk_125
+adc_clk_to_125 : axis_data_fifo_0
+port map (
+  s_axis_aresetn => (resetn),
+  s_axis_aclk => adc_clk_in,
+  s_axis_tvalid => '1', --let's assume data from adc is always there when there's a rising edge
+  s_axis_tready => open, --let's always write, it's fine to start writing for some time if this fifo take some cycles to be ready
+  s_axis_tdata => adc_data,
+  m_axis_aclk => clk_125,
+  m_axis_tvalid => adc_data_125_tvalid,
+  m_axis_tready => '1', -- the memory is always ready to receive the samples since it will share the 125MHz clock
+  m_axis_tdata => adc_data_125_tdata);
+  
+-- Now adc_data_125_tdata has the data in the 125MHz processing clk whenever adc_data_125_tvalid is set to 1
 
 
 end Behavioral;
