@@ -54,7 +54,8 @@ architecture Behavioral of top_block is
 
 -- components 
 component ad9467_interface is
-    Port ( adc_clk : in STD_LOGIC;
+    Port ( reset : in STD_LOGIC;
+           adc_clk : in STD_LOGIC;
            adc_data : in STD_LOGIC_VECTOR (7 downto 0);
            out_of_range : in STD_LOGIC;
            adc_data_out : out STD_LOGIC_VECTOR (15 downto 0);
@@ -65,6 +66,7 @@ end component;
 
 -- single-ended inputs
 signal clk_125 : std_logic;
+signal adc_clk_in : std_logic;
 signal out_of_range : std_logic;
 signal adc_data_in : std_logic_vector (7 downto 0);
 
@@ -112,6 +114,19 @@ generic map(
     IOSTANDARD => "DEFAULT" -- Specify the input I/O standard
 )
 port map (
+    O => adc_clk_in, -- Buffer output
+    I => adc_clk_in_p, -- Diff_p buffer input (connect directly to top-level port)
+    IB => adc_clk_in_n -- Diff_n buffer input (connect directly to top-level port)
+);
+
+-- processing clk
+IBUFDS_CLOCK : IBUFGDS 
+generic map(
+    DIFF_TERM => FALSE, -- Differential Termination, board is already using this according to constraint
+    IBUF_LOW_PWR => TRUE, -- Low power="TRUE", Highest perforrmance="FALSE"
+    IOSTANDARD => "DEFAULT" -- Specify the input I/O standard
+)
+port map (
     O => clk_125, -- Buffer output
     I => clk_125_p, -- Diff_p buffer input (connect directly to top-level port)
     IB => clk_125_n -- Diff_n buffer input (connect directly to top-level port)
@@ -120,10 +135,14 @@ port map (
 -- use ad9467 interface here: basically we have a data clock (clk_125 and 8 data lanes with bits on rising_edge and falling edges)
 -- the output of this block is the 16 bits of the adc each clock cycle.
 ad9467 : ad9467_interface
-    port map ( adc_clk => clk_125,
+    port map ( reset => reset,
+           adc_clk => adc_clk_in,
            adc_data => adc_data_in,
            out_of_range => out_of_range,
            adc_data_out => adc_data,
            out_of_range_out => out_of_range_delayed);
+
+-- Now we need to get the data of the ADC, which is being clocked by ad_clk_in and send it to a memory using the processing clk (clk_125)
+
 
 end Behavioral;
