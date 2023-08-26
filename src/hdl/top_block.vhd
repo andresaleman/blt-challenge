@@ -28,8 +28,8 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx leaf cells in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
+library UNISIM;
+use UNISIM.VComponents.all;
 
 entity top_block is
     Port ( reset : in STD_LOGIC;
@@ -52,7 +52,78 @@ end top_block;
 
 architecture Behavioral of top_block is
 
+-- components 
+component ad9467_interface is
+    Port ( adc_clk : in STD_LOGIC;
+           adc_data : in STD_LOGIC_VECTOR (7 downto 0);
+           out_of_range : in STD_LOGIC;
+           adc_data_out : out STD_LOGIC_VECTOR (15 downto 0);
+           out_of_range_out : out STD_LOGIC);
+end component;
+
+-- signals
+
+-- single-ended inputs
+signal clk_125 : std_logic;
+signal out_of_range : std_logic;
+signal adc_data_in : std_logic_vector (7 downto 0);
+
+-- ad9467 data and out_of_range delayed
+signal adc_data : std_logic_vector (15 downto 0);
+signal out_of_range_delayed : std_logic;
+
 begin
 
+-- First, let's convert all the differential pairs to single-ended
+
+-- Out of Range signal
+IBUFDS_DATA_OUT_OF_RANGE : IBUFDS 
+generic map(
+    DIFF_TERM => FALSE, -- Differential Termination, board is already using this according to constraint
+    IBUF_LOW_PWR => TRUE, -- Low power="TRUE", Highest perforrmance="FALSE"
+    IOSTANDARD => "DEFAULT" -- Specify the input I/O standard
+)
+port map (
+    O => out_of_range, -- Buffer output
+    I => adc_data_or_p, -- Diff_p buffer input (connect directly to top-level port)
+    IB => adc_data_or_n -- Diff_n buffer input (connect directly to top-level port)
+);
+
+-- ADC Data
+IBUFDS_DATA_GEN : for i in 0 to 7 generate
+IBUFDS_DATA : IBUFDS
+generic map(
+    DIFF_TERM => FALSE, -- Differential Termination
+    IBUF_LOW_PWR => TRUE, -- Low power="TRUE", Highest perforrmance="FALSE"
+    IOSTANDARD => "DEFAULT" -- Specify the input I/O standard
+)
+port map (
+    O => adc_data_in(i), -- Buffer output
+    I => adc_data_in_p(i), -- Diff_p buffer input (connect directly to top-level port)
+    IB => adc_data_in_n(i) -- Diff_n buffer input (connect directly to top-level port)
+);
+end generate IBUFDS_DATA_GEN;
+
+-- ADC Clock
+IBUFDS_DATA_CLOCK : IBUFGDS 
+generic map(
+    DIFF_TERM => FALSE, -- Differential Termination, board is already using this according to constraint
+    IBUF_LOW_PWR => TRUE, -- Low power="TRUE", Highest perforrmance="FALSE"
+    IOSTANDARD => "DEFAULT" -- Specify the input I/O standard
+)
+port map (
+    O => clk_125, -- Buffer output
+    I => clk_125_p, -- Diff_p buffer input (connect directly to top-level port)
+    IB => clk_125_n -- Diff_n buffer input (connect directly to top-level port)
+);
+
+-- use ad9467 interface here: basically we have a data clock (clk_125 and 8 data lanes with bits on rising_edge and falling edges)
+-- the output of this block is the 16 bits of the adc each clock cycle.
+ad9467 : ad9467_interface
+    port map ( adc_clk => clk_125,
+           adc_data => adc_data_in,
+           out_of_range => out_of_range,
+           adc_data_out => adc_data,
+           out_of_range_out => out_of_range_delayed);
 
 end Behavioral;
