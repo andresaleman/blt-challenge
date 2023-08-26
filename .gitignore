@@ -4,3 +4,4 @@
 ad9467-interface/
 *.xml
 *.tmp
+*.debug

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="cfg_tb_top_block_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="tb_top_block" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="617800000fs"></ZoomStartTime>
+      <ZoomEndTime time="753400001fs"></ZoomEndTime>
+      <Cursor1Time time="654600000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="175"></NameColumnWidth>
+      <ValueColumnWidth column_width="146"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="25" />
+   <wvobject type="logic" fp_name="/tb_top_block/reset">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_top_block/clk_125_n">
+      <obj_property name="ElementShortName">clk_125_n</obj_property>
+      <obj_property name="ObjectShortName">clk_125_n</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_top_block/clk_125_p">
+      <obj_property name="ElementShortName">clk_125_p</obj_property>
+      <obj_property name="ObjectShortName">clk_125_p</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_top_block/uart_txd">
+      <obj_property name="ElementShortName">uart_txd</obj_property>
+      <obj_property name="ObjectShortName">uart_txd</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_top_block/uart_rxd">
+      <obj_property name="ElementShortName">uart_rxd</obj_property>
+      <obj_property name="ObjectShortName">uart_rxd</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_top_block/up_status">
+      <obj_property name="ElementShortName">up_status[7:0]</obj_property>
+      <obj_property name="ObjectShortName">up_status[7:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_top_block/adc_clk_in_p">
+      <obj_property name="ElementShortName">adc_clk_in_p</obj_property>
+      <obj_property name="ObjectShortName">adc_clk_in_p</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_top_block/adc_clk_in_n">
+      <obj_property name="ElementShortName">adc_clk_in_n</obj_property>
+      <obj_property name="ObjectShortName">adc_clk_in_n</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_top_block/adc_data_or_p">
+      <obj_property name="ElementShortName">adc_data_or_p</obj_property>
+      <obj_property name="ObjectShortName">adc_data_or_p</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_top_block/adc_data_or_n">
+      <obj_property name="ElementShortName">adc_data_or_n</obj_property>
+      <obj_property name="ObjectShortName">adc_data_or_n</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_top_block/adc_data_in_p">
+      <obj_property name="ElementShortName">adc_data_in_p[7:0]</obj_property>
+      <obj_property name="ObjectShortName">adc_data_in_p[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_top_block/adc_data_in_n">
+      <obj_property name="ElementShortName">adc_data_in_n[7:0]</obj_property>
+      <obj_property name="ObjectShortName">adc_data_in_n[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_top_block/ad9517_csn">
+      <obj_property name="ElementShortName">ad9517_csn</obj_property>
+      <obj_property name="ObjectShortName">ad9517_csn</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_top_block/spi_csn">
+      <obj_property name="ElementShortName">spi_csn</obj_property>
+      <obj_property name="ObjectShortName">spi_csn</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_top_block/spi_clk">
+      <obj_property name="ElementShortName">spi_clk</obj_property>
+      <obj_property name="ObjectShortName">spi_clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_top_block/spi_sdio">
+      <obj_property name="ElementShortName">spi_sdio</obj_property>
+      <obj_property name="ObjectShortName">spi_sdio</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_top_block/TbClock">
+      <obj_property name="ElementShortName">TbClock</obj_property>
+      <obj_property name="ObjectShortName">TbClock</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_top_block/TbSimEnded">
+      <obj_property name="ElementShortName">TbSimEnded</obj_property>
+      <obj_property name="ObjectShortName">TbSimEnded</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/tb_top_block/TbPeriod">
+      <obj_property name="ElementShortName">TbPeriod</obj_property>
+      <obj_property name="ObjectShortName">TbPeriod</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_top_block/dut/adc_data">
+      <obj_property name="ElementShortName">adc_data[15:0]</obj_property>
+      <obj_property name="ObjectShortName">adc_data[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_top_block/dut/out_of_range_delayed">
+      <obj_property name="ElementShortName">out_of_range_delayed</obj_property>
+      <obj_property name="ObjectShortName">out_of_range_delayed</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_top_block/dut/adc_data_125_tdata">
+      <obj_property name="ElementShortName">adc_data_125_tdata[15:0]</obj_property>
+      <obj_property name="ObjectShortName">adc_data_125_tdata[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb_top_block/dut/adc_data_125_tvalid">
+      <obj_property name="ElementShortName">adc_data_125_tvalid</obj_property>
+      <obj_property name="ObjectShortName">adc_data_125_tvalid</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_top_block/dut/mem_adc_data_output">
+      <obj_property name="ElementShortName">mem_adc_data_output[15:0]</obj_property>
+      <obj_property name="ObjectShortName">mem_adc_data_output[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb_top_block/dut/mem_addr">
+      <obj_property name="ElementShortName">mem_addr[9:0]</obj_property>
+      <obj_property name="ObjectShortName">mem_addr[9:0]</obj_property>
+   </wvobject>
+</wave_config>
