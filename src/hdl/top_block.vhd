@@ -24,7 +24,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
---use IEEE.NUMERIC_STD.ALL;
+use IEEE.NUMERIC_STD.ALL;
 
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx leaf cells in this code.
@@ -75,6 +75,17 @@ Port (
   m_axis_tdata : out STD_LOGIC_VECTOR(15 downto 0));
 end component;
 
+component blk_mem_gen_0 IS
+  PORT (
+    clka : IN STD_LOGIC;
+    ena : IN STD_LOGIC;
+    wea : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
+    addra : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
+    dina : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+    douta : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
+  );
+END component;
+
 -- signals
 signal resetn : std_logic;
 
@@ -92,7 +103,9 @@ signal out_of_range_delayed : std_logic;
 signal adc_data_125_tdata : std_logic_vector(15 downto 0);
 signal adc_data_125_tvalid : std_logic;
 
---
+-- memory
+signal mem_adc_data_output : std_logic_vector(15 downto 0);
+signal mem_addr : std_logic_vector(9 downto 0);
 
 begin
 
@@ -180,6 +193,50 @@ port map (
   m_axis_tdata => adc_data_125_tdata);
   
 -- Now adc_data_125_tdata has the data in the 125MHz processing clk whenever adc_data_125_tvalid is set to 1
+adc_mem : blk_mem_gen_0
+port map (
+    clka => clk_125,
+    ena => '1', -- let's keep the enable high always, wea will be in charge of controlling when to write but we always want to see what's in the memory
+    wea(0) => adc_data_125_tvalid, -- everytime there's data that we want to write tvalid will be set to '1'
+    addra => mem_addr,
+    dina => adc_data_125_tdata,
+    douta => mem_adc_data_output
+  );
 
+-- Now we need a process to handle mem_addr, basically a counter to know where in memory we are going to write
+process (clk_125)
+begin
+    if(rising_edge(clk_125)) then
+        if(reset = '1') then
+            mem_addr <= (others=>'0');
+        elsif(adc_data_125_tvalid = '1') then
+            mem_addr <= std_logic_vector(unsigned(mem_addr) + 1); -- this memory is exactly 2^10=1024 in size, so this number will just wrap automatically
+        end if;
+    end if;
+end process;
+
+
+-- LEDs
+process (clk_125)
+begin
+    if(rising_edge(clk_125)) then
+        -- just make sure we are running the FPGA image, so always ON
+        up_status(0) <= '1';
+        -- allow to visualize out of range with LED
+        up_status(1) <= out_of_range_delayed;
+        -- make sure adc_clk is running 
+        up_status(2) <= adc_clk_in;
+        -- make sure we are writing to memory or at least wre is being toggled
+        up_status(3) <= adc_data_125_tvalid;
+        
+        -- show the 4 LSBs of the ADC data in the LEDs to make sure data is flowing
+        up_status(4) <= adc_data_125_tdata(0);
+        up_status(5) <= adc_data_125_tdata(1);
+        up_status(6) <= adc_data_125_tdata(2);
+        up_status(7) <= adc_data_125_tdata(3);
+        
+        
+    end if;
+end process;
 
 end Behavioral;
